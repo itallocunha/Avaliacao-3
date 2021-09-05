@@ -3,10 +3,10 @@ package com.state.avaliacao3.service;
 import com.state.avaliacao3.model.State;
 import com.state.avaliacao3.model.repository.StateRepository;
 import com.state.avaliacao3.service.exceptions.ObjectNotFoundException;
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,4 +60,21 @@ public class StateService {
     }
 
 
+    public List<State> findAllStatesByRegion(String region) {
+        List<State>state= stateRepository.findAllStateByRegion(region);
+
+        return state;
+    }
+
+    public List<State> findAllCarsByPopulation(BigDecimal population) {
+        List<State>state= stateRepository.findAllStateByPopulation(population);
+
+        return state;
+    }
+
+    public List<State> findAllStateByArea(BigDecimal area) {
+        List<State>state= stateRepository.findAllStateByArea(area);
+
+        return state;
+    }
 }

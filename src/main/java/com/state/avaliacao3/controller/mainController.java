@@ -3,15 +3,14 @@ package com.state.avaliacao3.controller;
 import com.state.avaliacao3.model.State;
 import com.state.avaliacao3.service.DBService;
 import com.state.avaliacao3.service.StateService;
-import com.state.avaliacao3.service.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/states")
@@ -37,8 +36,15 @@ public class mainController {
 
     @PutMapping("/{id}")
     public ResponseEntity <State> putStateById(@PathVariable Long id, @RequestBody State formState) throws ParseException{
-        State state = stateService.putStateById(id,formState);
-        return ResponseEntity.ok().body(state);
+
+        boolean right = stateService.itsValid(formState);
+
+        if (right==true){
+            State state = stateService.putStateById(id,formState);
+            return ResponseEntity.ok().body(state);
+        }else{
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/")
@@ -61,6 +67,21 @@ public class mainController {
         return ResponseEntity.ok().body(listState);
     }
 
+    @GetMapping("/region/{region}")
+    public ResponseEntity <List<State>> listAllStateByRegion(@PathVariable String region) throws ParseException {
+        List<State> listState = stateService.findAllStatesByRegion(region);
+        return ResponseEntity.ok().body(listState);
+    }
 
+    @GetMapping("/population/{population}")
+    public ResponseEntity <List<State>> listAllStateByPopulation(@PathVariable BigDecimal population) throws ParseException {
+        List<State> listState = stateService.findAllCarsByPopulation(population);
+        return ResponseEntity.ok().body(listState);
+    }
+    @GetMapping("/color/{color}")
+    public ResponseEntity <List<State>> listAllStateByArea(@PathVariable BigDecimal area) throws ParseException {
+        List<State> listArea = stateService.findAllStateByArea(area);
+        return ResponseEntity.ok().body(listArea);
 
+    }
 }
