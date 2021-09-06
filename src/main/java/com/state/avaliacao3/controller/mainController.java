@@ -54,7 +54,7 @@ public class mainController {
     }
 
     @GetMapping("/")
-    @ApiOperation(value="Returna uma lista de states")
+    @ApiOperation(value="Retorna uma lista de states")
     public ResponseEntity<List<State>> listAllStates() throws ParseException {
        dbService.instanciaBaseDados();
         List<State> listStates = stateService.findAllStates();
